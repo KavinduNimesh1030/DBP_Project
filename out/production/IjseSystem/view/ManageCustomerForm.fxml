@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="486.0" prefWidth="684.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManageCustomerFormController">
+   <children>
+      <TextField fx:id="txtStudentId" layoutX="21.0" layoutY="75.0" promptText="student ID" />
+      <TextField fx:id="txtStudentName" layoutX="194.0" layoutY="75.0" promptText="Student Name" />
+      <TextField fx:id="txtEmail" layoutX="367.0" layoutY="75.0" promptText="Email" />
+      <TextField fx:id="txtContact" layoutX="21.0" layoutY="125.0" promptText="Contact" />
+      <TextField fx:id="txtAddress" layoutX="194.0" layoutY="125.0" promptText="Address" />
+      <TextField fx:id="txtNic" layoutX="367.0" layoutY="125.0" promptText="Nic" />
+      <Separator layoutX="4.0" layoutY="46.0" prefHeight="2.0" prefWidth="674.0" />
+      <Text layoutX="21.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Student">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Text>
+      <Button layoutX="534.0" layoutY="75.0" mnemonicParsing="false" onAction="#btnAddNewStudentOnAction" prefHeight="25.0" prefWidth="134.0" text="+Add New" />
+      <Button layoutX="534.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnSaveStudentOnAction" prefHeight="25.0" prefWidth="61.0" text="Save" />
+      <TextField fx:id="txtSearch" layoutX="479.0" layoutY="16.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="191.0" promptText="Search" />
+      <TableView fx:id="tblStudent" layoutX="37.0" layoutY="205.0" prefHeight="249.0" prefWidth="610.0">
+        <columns>
+          <TableColumn fx:id="colStudentId" prefWidth="86.0" text="Student Id" />
+          <TableColumn fx:id="colStudentName" prefWidth="100.0" text="Student Name" />
+            <TableColumn fx:id="colEmail" prefWidth="105.0" text=" Email" />
+            <TableColumn fx:id="colContact" prefWidth="107.0" text="Contact" />
+            <TableColumn fx:id="colAddress" prefWidth="105.0" text="Address" />
+            <TableColumn fx:id="colNic" prefWidth="116.0" text="Nic" />
+        </columns>
+      </TableView>
+      <Button layoutX="609.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnDeleteStudentOnAction" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+   </children>
+</AnchorPane>
