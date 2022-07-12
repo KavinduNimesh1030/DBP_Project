@@ -20,6 +20,10 @@ public class Student {
         this.nic = nic;
     }
 
+    public Student(String student_id) {
+        this.student_id= student_id;
+    }
+
     public String getStudent_id() {
         return student_id;
     }

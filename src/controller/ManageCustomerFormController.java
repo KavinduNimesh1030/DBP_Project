@@ -27,6 +27,7 @@ public class ManageCustomerFormController {
     public TableColumn colAddress;
     public TableColumn colNic;
     public Button btnSave;
+    ObservableList<Student> obList = FXCollections.observableArrayList();
 
 
     public void initialize() {
@@ -55,7 +56,6 @@ public class ManageCustomerFormController {
     }
 
     private void loadAllStudent() {
-        ObservableList<Student> obList = FXCollections.observableArrayList();
         try {
             ResultSet resultSet = CrudUtil.execute("SELECT * FROM student");
             while (resultSet.next()) {
@@ -99,7 +99,8 @@ public class ManageCustomerFormController {
             try {
                 CrudUtil.execute("UPDATE student SET student_name =?,email=?,contact=?,address=?,nic=? WHERE student_id=?", txtStudentName.getText(), txtEmail.getText(), txtContact.getText(), txtAddress.getText(), txtNic.getText(), txtStudentId.getText());
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated").show();
-                tblStudent.refresh();
+                tblStudent.getItems().clear();
+                loadAllStudent();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -126,15 +127,20 @@ public class ManageCustomerFormController {
 
     public void btnDeleteStudentOnAction(ActionEvent actionEvent) {
         try {
-            CrudUtil.execute("DELETE * FROM student WHERE student_id =?",txtStudentId.getText());
+            CrudUtil.execute("DELETE FROM student WHERE student_id =?",txtStudentId.getText());
+            new Alert(Alert.AlertType.CONFIRMATION,"Deleted").show();
+            tblStudent.getItems().clear();
+            loadAllStudent();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Error").show();
         }
     }
 
     public void btnAddNewStudentOnAction(ActionEvent actionEvent) {
+        btnSave.setDisable(false);
         btnSave.setText("Save");
     }
 }
