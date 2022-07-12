@@ -27,6 +27,7 @@ public class ManageCustomerFormController {
     public TableColumn colAddress;
     public TableColumn colNic;
     public Button btnSave;
+    public Button btnDelete;
     ObservableList<Student> obList = FXCollections.observableArrayList();
 
 
@@ -40,7 +41,7 @@ public class ManageCustomerFormController {
         loadAllStudent();
 
         tblStudent.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // btnDelete.setDisable(newValue == null);
+            btnDelete.setDisable(newValue == null);
             btnSave.setText(newValue != null ? "Update" : "Save");
             btnSave.setDisable(newValue == null);
             if (newValue != null) {
@@ -87,7 +88,9 @@ public class ManageCustomerFormController {
             try {
                 CrudUtil.execute("INSERT INTO student VALUES (?,?,?,?,?,?)", txtStudentId.getText(), txtStudentName.getText(), txtEmail.getText(), txtContact.getText(), txtAddress.getText(), txtNic.getText());
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved").show();
-                tblStudent.refresh();
+                tblStudent.getItems().clear();
+                loadAllStudent();
+                clearINT();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -101,6 +104,7 @@ public class ManageCustomerFormController {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated").show();
                 tblStudent.getItems().clear();
                 loadAllStudent();
+                clearINT();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -111,18 +115,25 @@ public class ManageCustomerFormController {
     }
 
     public void txtSearchOnAction(ActionEvent actionEvent) {
-        Student s = StudentCrudController.getStudentDetail(txtSearch.getText());
-        if (s != null) {
-            txtStudentId.setText(s.getStudent_id());
-            txtStudentName.setText(s.getStudent_name());
-            txtEmail.setText(s.getEmail());
-            txtNic.setText(s.getNic());
-            txtAddress.setText(s.getAddress());
-            txtContact.setText(s.getContact());
-            btnSave.setText("Update");
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Empty Result").show();
+        try {
+            ResultSet resultSet = CrudUtil.execute("SELECT * FROM student WHERE student_id=?",txtSearch.getText());
+            if (resultSet.next()) {
+                btnSave.setText("Update");
+                txtStudentId.setText(resultSet.getString(1));
+                txtStudentName.setText(resultSet.getString(2));
+                txtEmail.setText(resultSet.getString(3));
+                txtContact.setText(resultSet.getString(4));
+                txtAddress.setText(resultSet.getString(5));
+                txtNic.setText(resultSet.getString(6));
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Empty Result").show();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
     }
 
     public void btnDeleteStudentOnAction(ActionEvent actionEvent) {
@@ -131,6 +142,7 @@ public class ManageCustomerFormController {
             new Alert(Alert.AlertType.CONFIRMATION,"Deleted").show();
             tblStudent.getItems().clear();
             loadAllStudent();
+            clearINT();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -142,5 +154,14 @@ public class ManageCustomerFormController {
     public void btnAddNewStudentOnAction(ActionEvent actionEvent) {
         btnSave.setDisable(false);
         btnSave.setText("Save");
+        clearINT();
+    }
+    public void clearINT(){
+        txtStudentId.clear();
+        txtStudentName.clear();
+        txtAddress.clear();
+        txtContact.clear();
+        txtEmail.clear();
+        txtNic.clear();
     }
 }

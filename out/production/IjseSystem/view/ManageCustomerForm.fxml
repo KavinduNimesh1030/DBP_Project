@@ -37,6 +37,6 @@
             <TableColumn fx:id="colNic" prefWidth="116.0" text="Nic" />
         </columns>
       </TableView>
-      <Button layoutX="609.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnDeleteStudentOnAction" prefHeight="25.0" prefWidth="61.0" text="Delete" />
+      <Button fx:id="btnDelete" layoutX="609.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnDeleteStudentOnAction" prefHeight="25.0" prefWidth="61.0" text="Delete" />
    </children>
 </AnchorPane>
