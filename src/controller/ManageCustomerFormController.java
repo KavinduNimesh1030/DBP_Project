@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import model.Student;
 import util.CrudUtil;
 
 import java.sql.SQLException;
@@ -44,6 +45,17 @@ public class ManageCustomerFormController {
     }
 
     public void txtSearchOnAction(ActionEvent actionEvent) {
+        Student s = StudentCrudController.getStudentDetail(txtSearch.getText());
+        if(s!=null) {
+            txtStudentId.setText(s.getStudent_id());
+            txtStudentName.setText(s.getStudent_name());
+            txtEmail.setText(s.getEmail());
+            txtNic.setText(s.getNic());
+            txtAddress.setText(s.getAddress());
+            txtContact.setText(s.getContact());
+        }else {
+            new Alert(Alert.AlertType.ERROR,"Empty Result").show();
+        }
     }
 
     public void btnDeleteStudentOnAction(ActionEvent actionEvent) {
