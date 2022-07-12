@@ -25,7 +25,7 @@
          </font>
       </Text>
       <Button layoutX="534.0" layoutY="75.0" mnemonicParsing="false" onAction="#btnAddNewStudentOnAction" prefHeight="25.0" prefWidth="134.0" text="+Add New" />
-      <Button layoutX="534.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnSaveStudentOnAction" prefHeight="25.0" prefWidth="61.0" text="Save" />
+      <Button fx:id="btnSave" layoutX="534.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnSaveStudentOnAction" prefHeight="25.0" prefWidth="61.0" text="Save" />
       <TextField fx:id="txtSearch" layoutX="479.0" layoutY="16.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="191.0" promptText="Search" />
       <TableView fx:id="tblStudent" layoutX="37.0" layoutY="205.0" prefHeight="249.0" prefWidth="610.0">
         <columns>
