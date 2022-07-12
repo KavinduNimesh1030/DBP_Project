@@ -1,14 +1,19 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.Student;
 import util.CrudUtil;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 public class ManageCustomerFormController {
     public TextField txtStudentId;
@@ -25,9 +30,39 @@ public class ManageCustomerFormController {
     public TableColumn colContact;
     public TableColumn colAddress;
     public TableColumn colNic;
+    ObservableList<Student> obList = FXCollections.observableArrayList();
 
     public void initialize(){
+        colStudentId.setCellValueFactory(new PropertyValueFactory<>("student_id"));
+        colStudentName.setCellValueFactory(new PropertyValueFactory<>("student_name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colNic.setCellValueFactory(new PropertyValueFactory<>("nic"));
+        loadAllStudent();
+    }
 
+    private void loadAllStudent() {
+        try {
+            ResultSet resultSet = CrudUtil.execute("SELECT * FROM student");
+            while (resultSet.next()){
+                obList.add(
+                        new Student(
+                                resultSet.getString(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3),
+                                resultSet.getString(4),
+                                resultSet.getString(5),
+                                resultSet.getString(6)
+                        )
+                );
+            }
+            tblStudent.setItems(obList);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -35,6 +70,8 @@ public class ManageCustomerFormController {
         try {
             CrudUtil.execute("INSERT INTO student VALUES (?,?,?,?,?,?)",txtStudentId.getText(),txtStudentName.getText(),txtEmail.getText(),txtContact.getText(),txtAddress.getText(),txtNic.getText());
             new Alert(Alert.AlertType.CONFIRMATION,"Saved").show();
+            loadAllStudent();
+            tblStudent.refresh();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
