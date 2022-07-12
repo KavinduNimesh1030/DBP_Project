@@ -30,7 +30,6 @@ public class ManageCustomerFormController {
     public Button btnDelete;
     ObservableList<Student> obList = FXCollections.observableArrayList();
 
-
     public void initialize() {
         colStudentId.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         colStudentName.setCellValueFactory(new PropertyValueFactory<>("student_name"));
@@ -116,7 +115,7 @@ public class ManageCustomerFormController {
 
     public void txtSearchOnAction(ActionEvent actionEvent) {
         try {
-            ResultSet resultSet = CrudUtil.execute("SELECT * FROM student WHERE student_id=?",txtSearch.getText());
+            ResultSet resultSet = CrudUtil.execute("SELECT * FROM student WHERE student_id=?", txtSearch.getText());
             if (resultSet.next()) {
                 btnSave.setText("Update");
                 txtStudentId.setText(resultSet.getString(1));
@@ -125,7 +124,7 @@ public class ManageCustomerFormController {
                 txtContact.setText(resultSet.getString(4));
                 txtAddress.setText(resultSet.getString(5));
                 txtNic.setText(resultSet.getString(6));
-            }else {
+            } else {
                 new Alert(Alert.AlertType.ERROR, "Empty Result").show();
             }
         } catch (SQLException throwables) {
@@ -138,8 +137,8 @@ public class ManageCustomerFormController {
 
     public void btnDeleteStudentOnAction(ActionEvent actionEvent) {
         try {
-            CrudUtil.execute("DELETE FROM student WHERE student_id =?",txtStudentId.getText());
-            new Alert(Alert.AlertType.CONFIRMATION,"Deleted").show();
+            CrudUtil.execute("DELETE FROM student WHERE student_id =?", txtStudentId.getText());
+            new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
             tblStudent.getItems().clear();
             loadAllStudent();
             clearINT();
@@ -147,7 +146,7 @@ public class ManageCustomerFormController {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Error").show();
+            new Alert(Alert.AlertType.ERROR, "Error").show();
         }
     }
 
@@ -156,7 +155,8 @@ public class ManageCustomerFormController {
         btnSave.setText("Save");
         clearINT();
     }
-    public void clearINT(){
+
+    public void clearINT() {
         txtStudentId.clear();
         txtStudentName.clear();
         txtAddress.clear();
